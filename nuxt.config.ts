@@ -1,5 +1,11 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
-  devtools: { enabled: true }
-})
+const { mergeConfig } = require('vite');
+const { loadNuxt } = require('nuxt');
+
+module.exports = {
+  async viteFinal(config) {
+    const nuxt = await loadNuxt();
+    return mergeConfig(config, nuxt.options.vite);
+  },
+  stories: ['../components/**/*.stories.@(js|jsx|ts|tsx)'],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
+};
